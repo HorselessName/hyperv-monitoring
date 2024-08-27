@@ -1,0 +1,6 @@
+For Agent 1
+
+UserParameter=ms.hyperv[*],powershell -NoProfile -NoLogo -File "%ProgramFiles%\Zabbix Agent\scripts\zbx-hyperv.ps1" $1
+
+For Agent 2
+UserParameter=ms.hyperv[*],powershell -NoProfile -ExecutionPolicy Bypass -File "%ProgramFiles%\Zabbix Agent 2\scripts\zbx-hyperv.ps1" $1
