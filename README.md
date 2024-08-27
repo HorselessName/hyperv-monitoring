@@ -1,18 +1,16 @@
-# zbx-hyperv
-PowerShell script for Zabbix to monitor Hyper-V server.  
-  
-Zabbix Share page: https://share.zabbix.com/virtualization/hyper-v/hyper-v-server  
-Also you can contact me with Telegram: @asand3r (English, Russian)  
-Rate it on Zabbix Share page, if it helps you. =)
+# zbx-hyperv (Updated for Zabbix 6.2)
+PowerShell script for Zabbix to monitor Hyper-V servers, now updated for Zabbix version 6.2.
 
-![alt_text](https://pp.userapi.com/c831508/v831508836/1d54c4/aL5ve9-JYSc.jpg)
-![alt_text](https://pp.userapi.com/c831508/v831508836/1d54ce/WtGekdXFRHk.jpg)
-zbx-hyperv provides possibility to make Low Level Discovery of Hyper-V server VMs and retrieve their parameters, such "Memory Assigned", "CPU Usage", "State" etc. Attached template works only with Zabbix 4.0 and above.  
-The script wrote with PowerShell and requires at least version 3.0 and Hyper-V module installed.
+This project is a continuation and enhancement of the original "zbx-hyperv" script by @asand3r, which was designed for Zabbix 4.4. The original project provided the ability to perform Low-Level Discovery (LLD) of Hyper-V server VMs and retrieve their parameters, such as "Memory Assigned," "CPU Usage," "State," and more.
 
-**Latest stable version:** 0.2.5
+The original GitHub repository by @asand3r is no longer available (returns a 404 Not Found). However, this updated version maintains the same functionality while adding support for Zabbix 6.2 and its new features.
 
-__Please, read [Requirements and Installation](https://github.com/asand3r/zbx-hyperv/wiki/Requirements-and-Installation) section in Wiki before use.__  
+**Latest stable version:** 0.2.5 (original), updated for Zabbix 6.2.
+
+__Please, read the updated [Requirements and Installation](https://github.com/HorselessName/hyperv-monitoring/wiki/Requirements-and-Installation) section in the Wiki before use.__
+
+![Hyper-V Monitoring](https://pp.userapi.com/c831508/v831508836/1d54c4/aL5ve9-JYSc.jpg)
+![Zabbix Monitoring](https://pp.userapi.com/c831508/v831508836/1d54ce/WtGekdXFRHk.jpg)
 
 ## Dependencies
  - PowerShell v3.0+
@@ -44,8 +42,10 @@ PS C:\> .\zbx-hyperv.ps1 full
 "NumaNodes":1,"ReplHealth":0,"CPUUsage":0,"IntSvcState":0},...}
 ```
 
-## Zabbix templates
-In addition I've attached preconfigured Zabbix Template for version 4.0 and above (doesn't work with 3.0, 3.2, 3.4!), so you can use it in your environment. It's using Low Level Discovery functionality.
+## Zabbix Templates
+This repository includes a preconfigured Zabbix Template updated for version 6.2, building on the original template designed for Zabbix 4.0 and above. The updated template utilizes Low-Level Discovery (LLD) functionality to monitor Hyper-V servers and their VMs.
+
+**Important:** This template is specifically designed for Zabbix 6.2 and is not compatible with earlier versions such as 3.0, 3.2, 3.4, or even 4.x. If you are using an older version of Zabbix, please refer to the original repository (if available) or consider upgrading to benefit from the latest features and improvements.
 
 **Tested with**:  
 Hyper-V on Windows Server 2012, 2012 R2 and 2016 and doesn't work with Hyper-V 2008 R2 and lower.
