@@ -14,13 +14,13 @@
 
 .EXAMPLE
     zbx-hyperv.ps1 lld
-    {"data":[{"{#VM.NAME}":"vm01","{#VM.VERSION}":"5.0","{#VM.CLUSTERED}":0,"{#VM.HOST}":"hv01","{#VM.GEN}":2,"{#VM.ISREPLICA}":0}
+    {"data":[{"`{#VM.NAME`}`":"vm01","`{#VM.VERSION`}`":"5.0","`{#VM.CLUSTERED`}`":0,"`{#VM.HOST`}`":"hv01","`{#VM.GEN`}`":2,"`{#VM.ISREPLICA`}`":0}
 
 .EXAMPLE
     zbx-hyperv.ps1 full
     {"vm01":{"IntegrationServicesState":"","MemoryAssigned":0,"IntegrationServicesVersion":"","NumaSockets":1,"Uptime":0,"State":3,
     "NumaNodes":1,"CPUUsage":0,"Status":"Operating normally","ReplicationHealth":0,"ReplicationState":0}, ...}
-    
+
 .NOTES
     Original Author: Katsuuki Alexander
     On GitHub: https://github.com/asand3r/ (Page Deleted)
