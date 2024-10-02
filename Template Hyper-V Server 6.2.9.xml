@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <zabbix_export>
     <version>6.2</version>
-    <date>2024-08-27T19:03:52Z</date>
+    <date>2024-10-02T19:31:43Z</date>
     <template_groups>
         <template_group>
             <uuid>7df96b18c230490a9a0a9e2307226338</uuid>
@@ -10,12 +10,10 @@
     </template_groups>
     <templates>
         <template>
-            <uuid>64c2f28a155842758caea8a79738a7d8</uuid>
+            <uuid>f6af9200086e4b42985f6e0ba411be26</uuid>
             <template>Hyper-V Monitoring</template>
             <name>Hyper-V Monitoring</name>
-            <description>Hyper-V Monitoring using PowerShell with LLD Discovery using Hyper-V Module from Windows Server: https://learn.microsoft.com/en-us/powershell/module/hyper-v
-Template used and guide is found on https://github.com/HorselessName, originally developed by Katsuuki Alexander for Zabbix Version 4.0 and 4.2, but his GitHub page was deleted.
-Adapted and transformed for Zabbix 6.2 and above.</description>
+            <description>This template is used for generating individual hosts that will eventually use the &quot;Hyper-V Monitoring - Individual Host Monitoring&quot; template.</description>
             <groups>
                 <group>
                     <name>Templates</name>
@@ -23,87 +21,50 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
             </groups>
             <items>
                 <item>
-                    <uuid>1c766cfff0a7455f8236406b84ae8886</uuid>
-                    <name>Hyper-V VMs Details</name>
+                    <uuid>ce1621618dbc41fea0f9fbe6c50c0a5c</uuid>
+                    <name>Hyper-V VMs master item</name>
                     <key>ms.hyperv[full]</key>
                     <delay>5m</delay>
                     <history>1d</history>
                     <trends>0</trends>
-                    <status>DISABLED</status>
                     <value_type>TEXT</value_type>
-                    <description>Get a detailed list of each Hyper-V VM containing:
+                    <description>Hyper-V JSON master item.
 
-1. **State:** The current operational state of the VM. Mapped by Value Mapping &quot;Hyper-V VM State&quot; and can be:
-   - `2`: Off (Desligado)
-   - `3`: Starting (Iniciando)
-   - `32768`: Running (Em execução)
-   - `32769`: Stopping (Parando)
-   - `32770`: Saved (Salvo)
-   - `32771`: Paused (Pausado)
-   - `32773`: Reset (Reiniciado)
-   - `32774`: Saving (Salvando)
-   - `32776`: Pausing (Pausando)
-   - `32777`: Resuming (Retomando)
-   
-   Ref: [Hyper-V VM State Documentation](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/manage-hyper-v-with-powershell#check-vm-status)
-
-2. **Uptime:** The amount of time (in seconds) that the VM has been running since it was last started.
-3. **NumaNodes:** The number of NUMA (Non-Uniform Memory Access) nodes assigned to the VM. This indicates the distribution of memory and CPU resources across the physical server.
-4. **NumaSockets:** The number of NUMA sockets assigned to the VM. Sockets refer to the physical CPU sockets available on the host.
-5. **IntSvcVer:** The version of Integration Services installed on the VM. Integration Services are a set of utilities that improve the integration between the Hyper-V host and the VM.
-6. **IntSvcState:** The current state of the Integration Services on the VM. Mapped under Value Mapping &quot;Hyper-V VM Integration Services State&quot; and can be:
-   - `0`: Up to date (Atualizado)
-   - `1`: Update required (Atualização necessária)
-   - `2`: Unknown state (Estado desconhecido)
-   
-   Ref: [Integration Services Documentation](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/upgrade-hyper-v-integration-services)
-
-7. **CPUUsage:** The current CPU usage of the VM, reflecting how much of the host's CPU resources are being consumed by the VM.
-8. **Memory:** The amount of memory currently assigned to the VM (in megabytes).
-9. **ReplMode:** The replication mode of the VM, indicating whether the VM is involved in Hyper-V replication. Mapped by Value Mapping &quot;Hyper-V VM Replication Mode&quot; and can be:
-   - `0`: None (Nenhum)
-   - `1`: Primary (Primário)
-   - `2`: Replica (Réplica)
-   
-   Ref: [Replication Mode Documentation](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/manage-hyper-v-replica)
-
-10. **ReplState:** The current state of the VM's replication process. Mapped by Value Mapping &quot;Hyper-V VM Replication State&quot; and can be:
-    - `0`: Disabled (Desativado)
-    - `1`: Ready for replication (Pronto para replicação)
-    - `2`: Waiting for initial replication (Aguardando replicação inicial)
-    - `3`: Replicating (Replicando)
-    - `4`: Prepared for planned failover (Preparado para failover planejado)
-    - `5`: Failed over (Falhou)
-    - `6`: Committed (Concluído)
-    
-    Ref: [Replication State Documentation](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/manage-hyper-v-replica)
-
-11. **ReplHealth:** The health status of the VM's replication. Este valor é mapeado pela Value Mapping &quot;Hyper-V VM Replication Health&quot; e pode assumir os seguintes valores:
-    - `0`: Normal (Normal)
-    - `1`: Warning (Aviso)
-    - `2`: Critical (Crítico)
-    
-    Referência: [Replication Health Documentation](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/manage-hyper-v-replica)
-
-12. **StopAction:** The action configured for the VM when it is stopped (e.g., save state, turn off). This is represented by an integer.
-13. **StartAction:** The action configured for the VM when it is started (e.g., start automatically, do nothing). This is represented by an integer.
-14. **CritErrAction:** The action taken by the VM when a critical error occurs. This is represented by an integer and defines how the VM reacts to severe issues.
-15. **IsClustered:** Indicates whether the VM is part of a cluster, with `1` representing that the VM is clustered and `0` representing that it is not.</description>
+This generates data such as CPU Usage, Uptime and Memory.</description>
                     <tags>
                         <tag>
                             <tag>Hyper-V</tag>
                             <value>VMs</value>
                         </tag>
                     </tags>
+                    <triggers>
+                        <trigger>
+                            <uuid>b58defb3b34c4a06b4cc2a295f714470</uuid>
+                            <expression>nodata(/Hyper-V Monitoring/ms.hyperv[full],30m)=1</expression>
+                            <name>Cannot obtain VMs data</name>
+                            <priority>HIGH</priority>
+                            <description>Cannot obtain virtual machine data from Hyper-V server.</description>
+                            <manual_close>YES</manual_close>
+                            <tags>
+                                <tag>
+                                    <tag>Hyper-V</tag>
+                                    <value>VM</value>
+                                </tag>
+                                <tag>
+                                    <tag>Master</tag>
+                                    <value>Item</value>
+                                </tag>
+                            </tags>
+                        </trigger>
+                    </triggers>
                 </item>
             </items>
             <discovery_rules>
                 <discovery_rule>
-                    <uuid>4fdaf647023641b08b637b9703ad7555</uuid>
+                    <uuid>21bfbf1c85cd4508880485e87da61bb2</uuid>
                     <name>Hyper-V VMs Discovery</name>
                     <key>ms.hyperv[lld]</key>
-                    <delay>5m</delay>
-                    <status>DISABLED</status>
+                    <delay>{$LLD}</delay>
                     <filter>
                         <conditions>
                             <condition>
@@ -115,18 +76,24 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
                         </conditions>
                     </filter>
                     <lifetime>1d</lifetime>
-                    <description>Low-level discovery function that returns the list of VMs in V-Center.</description>
+                    <description>Discovery Rule used to generate the hosts that will get data from &quot;ms.hyperv[full]&quot; custom script... Why use both in the same template?
+
+Reason:
+
+1. Zabbix Item data will be used as &quot;Value&quot;.
+2. Zabbix Discovery data will be used as &quot;Item Names&quot;.</description>
                     <item_prototypes>
                         <item_prototype>
-                            <uuid>5a48287e14624a3a9c7235262cd57403</uuid>
+                            <uuid>015e27da6d634874b045ead8dbf6c674</uuid>
                             <name>VM {#VM.NAME} CPU usage</name>
                             <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;CPUUsage&quot;]</key>
+                            <key>ms.hyperv.vm[{#VM.NAME},\&quot;CPUUsage\&quot;]</key>
                             <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
+                            <history>{$HISTORY}</history>
+                            <trends>{$TRENDS}</trends>
+                            <value_type>FLOAT</value_type>
                             <units>%</units>
-                            <description>{#VM.NAME} CPU usage in Percentage</description>
+                            <description>{#VM.NAME} CPU usage</description>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
@@ -140,90 +107,19 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
                             </master_item>
                             <tags>
                                 <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
+                                    <tag>VM</tag>
                                     <value>{#VM.NAME}</value>
                                 </tag>
                             </tags>
                         </item_prototype>
                         <item_prototype>
-                            <uuid>64c2f28a155842758caea8a79738a7d8</uuid>
-                            <name>VM {#VM.NAME} Integration Services state</name>
-                            <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;IntSvcState&quot;]</key>
-                            <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
-                            <description>{#VM.NAME} Integration Services state</description>
-                            <valuemap>
-                                <name>Hyper-V VM Integration Services State</name>
-                            </valuemap>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$['{#VM.NAME}']['IntSvcState']</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>ms.hyperv[full]</key>
-                            </master_item>
-                            <tags>
-                                <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
-                                    <value>{#VM.NAME}</value>
-                                </tag>
-                            </tags>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>c64f7b9180564c39a7c8e65e2f6e5e88</uuid>
-                            <name>VM {#VM.NAME} Integration Services version</name>
-                            <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;IntSvcVer&quot;]</key>
-                            <delay>0</delay>
-                            <history>7d</history>
-                            <trends>0</trends>
-                            <value_type>CHAR</value_type>
-                            <description>{#VM.NAME} Integration Services version</description>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$['{#VM.NAME}']['IntSvcVer']</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>ms.hyperv[full]</key>
-                            </master_item>
-                            <tags>
-                                <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
-                                    <value>{#VM.NAME}</value>
-                                </tag>
-                            </tags>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>5e9b620f8fa446839b2d299d5d1ea234</uuid>
+                            <uuid>c425ada4aa814743b3900a02cdf501be</uuid>
                             <name>VM {#VM.NAME} Memory assigned</name>
                             <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;Memory&quot;]</key>
+                            <key>ms.hyperv.vm[{#VM.NAME},\&quot;Memory\&quot;]</key>
                             <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
-                            <units>B</units>
+                            <history>{$HISTORY}</history>
+                            <trends>{$TRENDS}</trends>
                             <description>{#VM.NAME} memory assigned</description>
                             <preprocessing>
                                 <step>
@@ -238,188 +134,34 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
                             </master_item>
                             <tags>
                                 <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
+                                    <tag>VM</tag>
                                     <value>{#VM.NAME}</value>
                                 </tag>
                             </tags>
                         </item_prototype>
                         <item_prototype>
-                            <uuid>a9e75104b5d64867a69b5cbb8b0b15d2</uuid>
-                            <name>VM {#VM.NAME} Numa nodes count</name>
-                            <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;NumaNodes&quot;]</key>
-                            <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
-                            <description>{#VM.NAME} Numa nodes count</description>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$['{#VM.NAME}']['NumaNodes']</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>ms.hyperv[full]</key>
-                            </master_item>
-                            <tags>
-                                <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
-                                    <value>{#VM.NAME}</value>
-                                </tag>
-                            </tags>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>ec347b6c2d67484fa457b3f0f89f1f94</uuid>
-                            <name>VM {#VM.NAME} Numa sockets count</name>
-                            <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;NumaSockets&quot;]</key>
-                            <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
-                            <description>{#VM.NAME} Numa sockets count</description>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$['{#VM.NAME}']['NumaSockets']</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>ms.hyperv[full]</key>
-                            </master_item>
-                            <tags>
-                                <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
-                                    <value>{#VM.NAME}</value>
-                                </tag>
-                            </tags>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>f2d9c3bf82354dbd8419b8c05787be31</uuid>
-                            <name>VM {#VM.NAME} Replication health</name>
-                            <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;ReplHealth&quot;]</key>
-                            <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
-                            <description>{#VM.NAME} replication health.</description>
-                            <valuemap>
-                                <name>Hyper-V VM Replication Health</name>
-                            </valuemap>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$['{#VM.NAME}']['ReplHealth']</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>ms.hyperv[full]</key>
-                            </master_item>
-                            <tags>
-                                <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
-                                    <value>{#VM.NAME}</value>
-                                </tag>
-                            </tags>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>70f72861f1a94126abddc008e734bb20</uuid>
-                            <name>VM {#VM.NAME} Replication mode</name>
-                            <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;ReplMode&quot;]</key>
-                            <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
-                            <description>{#VM.NAME} replication mode.</description>
-                            <valuemap>
-                                <name>Hyper-V VM Replication Mode</name>
-                            </valuemap>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$['{#VM.NAME}']['ReplMode']</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>ms.hyperv[full]</key>
-                            </master_item>
-                            <tags>
-                                <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
-                                    <value>{#VM.NAME}</value>
-                                </tag>
-                            </tags>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>54ad3b5ae9ed47cb8a5a0df0f25f7196</uuid>
-                            <name>VM {#VM.NAME} Replication state</name>
-                            <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;ReplState&quot;]</key>
-                            <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
-                            <description>{#VM.NAME} replication state.</description>
-                            <valuemap>
-                                <name>Hyper-V VM Replication State</name>
-                            </valuemap>
-                            <preprocessing>
-                                <step>
-                                    <type>JSONPATH</type>
-                                    <parameters>
-                                        <parameter>$['{#VM.NAME}']['ReplState']</parameter>
-                                    </parameters>
-                                </step>
-                            </preprocessing>
-                            <master_item>
-                                <key>ms.hyperv[full]</key>
-                            </master_item>
-                            <tags>
-                                <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
-                                    <value>{#VM.NAME}</value>
-                                </tag>
-                            </tags>
-                        </item_prototype>
-                        <item_prototype>
-                            <uuid>1f874b3bece44c16ae357b1af35e8b44</uuid>
+                            <uuid>6c2172c3413d4fc182e1ba1b837e3b52</uuid>
                             <name>VM {#VM.NAME} State</name>
                             <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;State&quot;]</key>
+                            <key>ms.hyperv.vm[{#VM.NAME},\&quot;State\&quot;]</key>
                             <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
-                            <description>{#VM.NAME} State</description>
+                            <history>{$HISTORY}</history>
+                            <trends>{$TRENDS}</trends>
+                            <description>{#VM.NAME} State
+
+1. **State:** The current operational state of the VM. Mapped by Value Mapping &amp;quot;Hyper-V VM State&amp;quot; and can be:
+   - `2`: Off (Desligado)
+   - `3`: Starting (Iniciando)
+   - `32768`: Running (Em execução)
+   - `32769`: Stopping (Parando)
+   - `32770`: Saved (Salvo)
+   - `32771`: Paused (Pausado)
+   - `32773`: Reset (Reiniciado)
+   - `32774`: Saving (Salvando)
+   - `32776`: Pausing (Pausando)
+   - `32777`: Resuming (Retomando)
+   
+   Ref: [Hyper-V VM State Documentation](https://docs.microsoft.com/en-us/windows-server/virtualization/hyper-v/manage/manage-hyper-v-with-powershell#check-vm-status)</description>
                             <valuemap>
                                 <name>Hyper-V VM State</name>
                             </valuemap>
@@ -436,25 +178,40 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
                             </master_item>
                             <tags>
                                 <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
+                                    <tag>VM</tag>
                                     <value>{#VM.NAME}</value>
                                 </tag>
                             </tags>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <uuid>e19a481de1644935be03671153df0d78</uuid>
+                                    <expression>count(/Hyper-V Monitoring/ms.hyperv.vm[{#VM.NAME},\&quot;State\&quot;],#3,&quot;ne&quot;,&quot;2&quot;)=3</expression>
+                                    <name>VM {#VM.NAME} state is not running</name>
+                                    <priority>HIGH</priority>
+                                    <description>VM {#VM.NAME} not in \&quot;Running\&quot; state ({ITEM.LASTVALUE}) after checking that the last 3 values returned &quot;Not Equal 2&quot;.</description>
+                                    <tags>
+                                        <tag>
+                                            <tag>Hyper-V</tag>
+                                            <value>VM</value>
+                                        </tag>
+                                        <tag>
+                                            <tag>VM</tag>
+                                            <value>Not Running</value>
+                                        </tag>
+                                    </tags>
+                                </trigger_prototype>
+                            </trigger_prototypes>
                         </item_prototype>
                         <item_prototype>
-                            <uuid>e5939b7a67d0410b8125df7b91f9f4b2</uuid>
+                            <uuid>480fe8fa2a2c4cbfb9f2aea0858a1509</uuid>
                             <name>VM {#VM.NAME} Uptime</name>
                             <type>DEPENDENT</type>
-                            <key>ms.hyperv.vm[{#VM.NAME},&quot;Uptime&quot;]</key>
+                            <key>ms.hyperv.vm[{#VM.NAME},\&quot;Uptime\&quot;]</key>
                             <delay>0</delay>
-                            <history>7d</history>
-                            <trends>90d</trends>
+                            <history>{$HISTORY}</history>
+                            <trends>{$TRENDS}</trends>
                             <units>s</units>
-                            <description>{#VM.NAME} Uptime</description>
+                            <description>{#VM.NAME} Uptime in Seconds</description>
                             <preprocessing>
                                 <step>
                                     <type>JSONPATH</type>
@@ -468,27 +225,57 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
                             </master_item>
                             <tags>
                                 <tag>
-                                    <tag>VM IP</tag>
-                                    <value>{#VM.IP}</value>
-                                </tag>
-                                <tag>
-                                    <tag>VM NAME</tag>
+                                    <tag>VM</tag>
                                     <value>{#VM.NAME}</value>
                                 </tag>
                             </tags>
                         </item_prototype>
                     </item_prototypes>
+                    <preprocessing>
+                        <step>
+                            <type>JSONPATH</type>
+                            <parameters>
+                                <parameter>$.data[*]</parameter>
+                            </parameters>
+                        </step>
+                    </preprocessing>
                 </discovery_rule>
             </discovery_rules>
             <tags>
+                <tag>
+                    <tag>Hyper-V</tag>
+                    <value>Services</value>
+                </tag>
+                <tag>
+                    <tag>Hyper-V</tag>
+                    <value>VMs</value>
+                </tag>
                 <tag>
                     <tag>Template</tag>
                     <value>Hyper-V</value>
                 </tag>
             </tags>
+            <macros>
+                <macro>
+                    <macro>{$HISTORY}</macro>
+                    <value>14d</value>
+                </macro>
+                <macro>
+                    <macro>{$LLD}</macro>
+                    <value>30m</value>
+                </macro>
+                <macro>
+                    <macro>{$TRENDS}</macro>
+                    <value>180d</value>
+                </macro>
+                <macro>
+                    <macro>{$UPDATE}</macro>
+                    <value>1m</value>
+                </macro>
+            </macros>
             <valuemaps>
                 <valuemap>
-                    <uuid>7213bbcab17e4e88a8c204b93133d442</uuid>
+                    <uuid>ebeedfbbb76a4b9d87c1baf8cfa0025d</uuid>
                     <name>Hyper-V VM Integration Services State</name>
                     <mappings>
                         <mapping>
@@ -506,7 +293,7 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
                     </mappings>
                 </valuemap>
                 <valuemap>
-                    <uuid>7ff3ec599b744850b09f37fec9abbfc2</uuid>
+                    <uuid>f7272db21cbb49c8b17e2a2fbbc38202</uuid>
                     <name>Hyper-V VM Replication Health</name>
                     <mappings>
                         <mapping>
@@ -524,7 +311,7 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
                     </mappings>
                 </valuemap>
                 <valuemap>
-                    <uuid>dd93d6d5f2744994a74233450b846eb4</uuid>
+                    <uuid>27b1792e22684c75909b9f00098bc8e9</uuid>
                     <name>Hyper-V VM Replication Mode</name>
                     <mappings>
                         <mapping>
@@ -542,7 +329,7 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
                     </mappings>
                 </valuemap>
                 <valuemap>
-                    <uuid>602187238b5a49f2b8d6f5957a322ba8</uuid>
+                    <uuid>877616f0913340ebac6bb2fbbd7b1332</uuid>
                     <name>Hyper-V VM Replication State</name>
                     <mappings>
                         <mapping>
@@ -576,7 +363,7 @@ Adapted and transformed for Zabbix 6.2 and above.</description>
                     </mappings>
                 </valuemap>
                 <valuemap>
-                    <uuid>4d73a53d76c343baa15cb9cb08e5adc9</uuid>
+                    <uuid>4128ecc87fc44f1796c747098629c56d</uuid>
                     <name>Hyper-V VM State</name>
                     <mappings>
                         <mapping>
